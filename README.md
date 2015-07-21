@@ -9,3 +9,10 @@ Current status :
  - 3 axis - considered working
  - 4 axis - works for both repositioning moves and 4x toolpaths
  - 5 axis - works, issues being that Z and probably A are inverted
+ 
+ Never even tried :
+ - Drill cycles of any kind
+ - Canned cycles of any kind
+ - Tapping
+ - Tool offsets and compensation 
+ - Not even air cutting time on a real machine of any kind
