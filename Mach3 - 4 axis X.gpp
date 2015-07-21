@@ -1,0 +1,486 @@
+
+; TODO
+
+;
+; Mach3 post for SolidCam 
+;-----
+;
+
+@init_post
+
+    ; Non GPPL variables
+    num_user_procs =    1
+    ;line_labels    = TRUE     ; Jump to N...
+
+    ; GPPL variables
+    numeric_def_f   = '5.3'
+    integer_def_f   = '5.0(p)'
+    gcode_f         = '2.0(p)'
+    mcode_f         = '2.0(p)'
+    xpos_f          = '5.3'
+    ypos_f          = '5.3'
+    zpos_f          = '5.3'
+    feed_f          = '4.3(p)'
+;    tool_diameter_f = '5.3/1'
+    apos_f          = '5.3'
+    blknum_f        = '5.0(p)'
+    blknum_gen      = false
+    blknum_exist    = true
+    blknum_letter   = 'N'
+    end_block_text  = ''
+    blknum          =    5
+    blknum_delta    =    5
+    blknum_max      = 999995
+
+
+;    trace "all":1
+;  trace "@call_proc":5
+endp
+
+;-------------------
+
+@start_of_file
+
+    {'%'}
+    {nl, 'O'program_number, ' (', part_name,')'}
+    if rotate_used then
+        gcode = 69
+        {nb, 'G'gcode}
+    endif
+    if mirror_used then
+        {nb, 'G50.1 X0 Y0'}
+    endif
+endp
+
+;-------------------
+
+@start_program
+	{nb, '(--- Initialisation ---)'}
+    {nb, 'G0 G40 G49 G80 G21'}
+	{nb, '(--- Go To Machine Origin ---)'}
+    {nb, 'G0 G53 Z0'}
+    {nb, 'G0 G53 X0 Y0 A0'}
+endp
+
+;-------------------
+
+@end_program
+    {nb, 'G0 G53 Z0 M9'}
+    {nb, 'G0 G53 X0 Y0 A0 M5'}
+    {nl, 'M30'}
+endp
+
+;-------------------
+
+@end_of_file
+    label = first_user_proc
+    {nl, '%'}
+endp
+
+;-------------------
+
+@relative_mode
+    gcode = 91
+    {nb, 'G'gcode, ' '}
+    skipline = FALSE
+endp
+
+;-------------------
+
+@absolute_mode
+    gcode = 90
+    {nb, 'G'gcode, ' '}
+    skipline = FALSE
+endp
+
+;-------------------
+
+@machine_plane
+    if machine_plane eq XY
+        gcode = 17
+    endif
+    if machine_plane eq ZX
+        gcode = 18
+    endif
+    {nb, 'G'gcode}
+endp
+
+;-------------------
+
+@call_proc
+    if active(parm1) then
+        gcode = 65
+        {nb, 'G'gcode, ' P'label}
+        {' A'parm1, [' B'parm2], [' C'parm3]}
+    else
+        {nb, 'M98 P'label}
+    endif
+    if proc_count gt 1 then
+        {' L'proc_count}
+    endif
+
+    if text eq true
+        {[' ('message, ')']}
+    endif
+endp
+
+;-------------------
+
+@proc
+    {nl, ':'label}
+endp
+
+;-------------------
+
+@end_proc
+    {nb, 'M99'}
+endp
+
+;----------------
+
+@loop
+    local integer var_num
+
+    var_num = loop_level + 20
+    {nb, '#', var_num, ' = 0'}
+    {nb, 'WHILE [#', var_num, ' LT ', loop_count, '] DO ', loop_level}
+endp
+
+;----------------
+
+@end_loop
+    local integer var_num
+
+    var_num = loop_level + 20
+    {nb, '#', var_num, ' = #', var_num, ' + 1'}
+    {nb, 'END ', loop_level}
+endp
+
+;----------------
+
+@def_tool
+;   {nb, '(G10 L1 P', (tool_number+1), ' R'tool_offset, ')'}
+endp
+
+;-------------------
+
+@rapid_move
+    gcode = 0
+	{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos] }
+endp
+
+;-------------------
+
+@move_4x
+    gcode = 0
+  
+	local numeric a
+    ;a = -cpos
+    a = cpos
+
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'a] }
+endp
+
+;-------------------
+
+@line
+    gcode = 1
+	{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' F'feed] }
+endp
+
+;-------------------
+
+@line_4x
+    gcode = 1
+  
+	local numeric a
+    ;a = -cpos
+    a = cpos
+
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'a], [' F'feed] }
+endp
+
+;-------------------
+
+@move_5x
+    local numeric x, y, z, a
+    gcode = 0
+    ;z = -ztpos
+    z = ztpos
+    ;a = -apos
+    a = apos
+    {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a] }
+endp
+
+;-------------------
+
+@line_5x
+    local numeric x, y, z, a
+
+    gcode = 1
+   ;z = -ztpos
+    z = ztpos
+    ;a = -apos
+    a = apos
+    {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a], [' F'feed] }
+endp
+
+;-------------------
+
+@arc
+    if arc_direction eq CCW then
+        gcode = 3
+    else ; CW
+        gcode = 2
+    endif
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos] }
+    if arc_size eq 360 then
+        {' I'xcenter_rel, ' J'ycenter_rel}
+    else
+            if arc_size gt 180 then
+                radius = -radius
+            endif
+            {' R'radius}
+    endif
+    {[' F'feed]}
+endp
+
+;-------------------
+
+@compensation
+    if side eq COMP_LEFT then
+        gcode = 41
+    endif
+    if side eq COMP_RIGHT then
+        gcode = 42
+    endif
+    if side eq COMP_OFF then
+        gcode = 40
+    endif
+    {nb, 'G'gcode,' '}
+    if side ne COMP_OFF
+		{'D'(offset_number), ' '}
+    endif
+    skipline = FALSE
+endp
+
+;-------------------
+
+@delay
+    gcode = 4
+    {nb, 'G'gcode, ' P'delay_period:integer_def_f}
+endp
+
+;-------------------
+
+@change_ref_point
+    ; Given in absolute mode
+    gcode = 10
+    {nb, 'G91 G'gcode, 'L2 P'home_number ' X'xhome, ' Y'yhome, ' Z'zhome}
+    {nb, 'G90'}
+endp
+
+;-------------------
+
+@home_number
+    gcode = 53 + home_number
+    {' G'gcode}
+endp
+
+;-------------------
+
+@rotate
+    if rotate_cancel then
+        gcode = 69
+        {nb, 'G'gcode}
+    else
+        gcode = 68
+        {nb, 'G'gcode, ' X0 Y0 G91 R'angle}
+        {nb, 'G90'}
+    endif
+endp
+
+;-------------------
+
+@fourth_axis
+    gcode = 0
+    {nb, 'G'gcode, ' A'angle}
+endp
+
+;-------------------
+
+@change_tool
+    local logical save_blknum_gen
+    if machine_plane eq XY
+         gcode = 17
+    endif
+    if machine_plane eq ZX
+         gcode = 18
+    endif
+    
+    {nb, '(Tool # 'tool_number,' - Diameter 'tool_diameter,' D'tool_number,' H'tool_number, ')'}
+
+    mcode = 6
+    {nb, 'T'tool_number,' M' mcode' D'tool_number ' H'tool_number}
+    call @start_tool
+    call @home_number
+endp
+
+;-------------------
+
+@message
+   {nb, '( ', message, ' )'}
+endp
+
+;-------------------
+
+@drill
+    call @rapid_move
+
+    gcode = 98 ; default value
+
+    if drill_type eq G81 then
+        gcode = 81
+    endif
+    if drill_type eq G82 then
+        gcode = 82
+    endif
+    if drill_type eq G83 then
+        gcode = 83
+    endif
+    if drill_type eq G84 then
+        gcode = 84
+    endif
+    if drill_type eq G85 then
+        gcode = 85
+    endif
+    if drill_type eq G86 then
+        gcode = 86
+    endif
+    if drill_type eq G89 then
+        gcode = 89
+    endif
+    {nb, 'G'gcode, ' Z'drill_lower_z, ' R'drill_upper_z}
+    if drill_type eq G83 then
+        {' Q'down_step}
+        {' P'verweilzeit:'7.0(*1000P)'}
+    endif
+    if drill_type eq G82 then
+        {' P'verweilzeit:'7.0(*1000P)'}
+    endif
+    if drill_type eq G84 then
+        feed = spin * steigung
+    endif
+
+    {' F'feed}
+
+endp
+
+;-------------------
+
+@drill_point
+	if not first_drill then
+		{nb, ' ', [' X'xpos], [' Y'ypos], [' Z'zpos]}
+	endif
+endp
+
+;-------------------
+
+@mirror
+    if mirror_type eq MIRROR_OFF then
+        {nb, 'G50.1 X0 Y0'}
+    else
+        {nb, 'G51.1 '}
+        if mirror_type eq MIRROR_X then
+            {'X1 Y0'}
+        endif
+        if mirror_type eq MIRROR_Y then
+            {'X0 Y1'}
+        endif
+        if mirror_type eq MIRROR_XY then
+            {'X1 Y1'}
+        endif
+    endif
+endp
+
+;-------------------
+
+@end_drill
+    gcode = 80
+    {nb, 'G'gcode}
+endp
+
+;-------------------
+
+@halt_program
+    {' M0'}
+endp
+
+;--------------------
+
+@round_comp
+    ; NOP
+endp
+
+;--------------------
+
+@start_of_job
+    ;{nb, '( ----------------------------- )'}
+    {nb, '( ---- Start of 'job_name' ----)'}
+
+    ;{nb, nl, '( rax='rotate_angle_x, ' ray='rotate_angle_y, ')'}
+    ;{nb, nl, '( a4xax='angle_4x_around_x , ' a4xay='angle_4x_around_y, ' )' }
+
+	; TODO: move up and rotate A only if necessary
+    ;{nb, 'G0 Z'tool_z_level}
+    {nb, 'G0 G53 Z0'}
+    {nb, 'G0 A'angle_4x_around_x}
+endp
+
+;--------------------
+
+@end_of_job
+    {nb, '( ---- End of 'job_name' ----)'}	
+endp
+
+;--------------------
+
+@assign_axis
+    ; TODO
+endp
+
+;-------------------
+
+;     =======================
+;     USER DEFINED PROCEDURES
+;     =======================
+
+@call_simple_proc
+    active(message) = FALSE
+    active(parm1)   = FALSE
+    active(parm2)   = FALSE
+    active(parm3)   = FALSE
+    proc_count      = 1
+    call @call_proc
+endp
+
+;-------------------
+
+@start_tool
+    if tool_direction eq CW then
+        mcode = 4
+    else              ;  CCW
+        mcode = 3
+    endif
+
+    {nb, 'S'spin:integer_def_f, ' M'mcode}
+    {nb, 'M8'}
+endp
+
+;-------------------
+
+@stop_tool
+    {nb, ' M5'}
+endp
+
+;-------------------
