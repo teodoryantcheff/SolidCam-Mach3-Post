@@ -33,8 +33,9 @@
     blknum_max      = 999995
 
 
-;    trace "all":1
-;  trace "@call_proc":5
+    ;trace "all":(trace_level)
+    ;trace "all":5
+	;trace "@call_proc":5
 endp
 
 ;-------------------
@@ -96,8 +97,9 @@ endp
 ;-------------------
 
 @machine_plane
-    if machine_plane eq XY
-        gcode = 17
+	gcode = 17 ; XY default
+    if machine_plane eq YZ
+        gcode = 19
     endif
     if machine_plane eq ZX
         gcode = 18
@@ -108,19 +110,15 @@ endp
 ;-------------------
 
 @call_proc
-    if active(parm1) then
-        gcode = 65
-        {nb, 'G'gcode, ' P'label}
-        {' A'parm1, [' B'parm2], [' C'parm3]}
-    else
+    {[' ('message, ')']}
+	;if active(parm1) then
+    ;    gcode = 65
+    ;    {nb, 'G'gcode, ' P'label, ' A'parm1, [' B'parm2], [' C'parm3]}
+    ;else
         {nb, 'M98 P'label}
-    endif
+    ;endif
     if proc_count gt 1 then
         {' L'proc_count}
-    endif
-
-    if text eq true
-        {[' ('message, ')']}
     endif
 endp
 
@@ -139,21 +137,23 @@ endp
 ;----------------
 
 @loop
-    local integer var_num
+	; TODO
+    ;local integer var_num
 
-    var_num = loop_level + 20
-    {nb, '#', var_num, ' = 0'}
-    {nb, 'WHILE [#', var_num, ' LT ', loop_count, '] DO ', loop_level}
+    ;var_num = loop_level + 20
+    ;{nb, '#', var_num, ' = 0'}
+    ;{nb, 'WHILE [#', var_num, ' LT ', loop_count, '] DO ', loop_level}
 endp
 
 ;----------------
 
 @end_loop
-    local integer var_num
+	; TODO
+    ;local integer var_num
 
-    var_num = loop_level + 20
-    {nb, '#', var_num, ' = #', var_num, ' + 1'}
-    {nb, 'END ', loop_level}
+    ;var_num = loop_level + 20
+    ;{nb, '#', var_num, ' = #', var_num, ' + 1'}
+    ;{nb, 'END ', loop_level}
 endp
 
 ;----------------
@@ -362,14 +362,14 @@ endp
     endif
     {nb, 'G'gcode, ' Z'drill_lower_z, ' R'drill_upper_z}
     if drill_type eq G83 then
-        {' Q'down_step}
-        {' P'verweilzeit:'7.0(*1000P)'}
+        {' Q'stepdown}
+        {' P'dwell:'7.0(*1000P)'}
     endif
     if drill_type eq G82 then
-        {' P'verweilzeit:'7.0(*1000P)'}
+        {' P'dwell:'7.0(*1000P)'}
     endif
     if drill_type eq G84 then
-        feed = spin * steigung
+        feed = spin * pitch
     endif
 
     {' F'feed}
@@ -434,7 +434,11 @@ endp
 	; TODO: move up and rotate A only if necessary
     ;{nb, 'G0 Z'tool_z_level}
     {nb, 'G0 G53 Z0'}
-    {nb, 'G0 A'angle_4x_around_x}
+	
+	local numeric a
+	a = -angle_4x_around_x
+    {nb, 'G0 A'a}
+    ;{nb, 'G0 A'angle_4x_around_x}
 endp
 
 ;--------------------
