@@ -1,6 +1,8 @@
 # SolidCam-Mach3-Post
 A SolidCam postprocessor for Mach3, supporting 4x and 5x operations
 
+Inspired by bogan - http://www.cnczone.com/forums/solidcam/255556-cnc.html
+
 Setup
  standard 3 axis mill. A axis rotary, along X.
 
