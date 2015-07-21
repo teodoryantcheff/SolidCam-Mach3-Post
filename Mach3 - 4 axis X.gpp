@@ -205,8 +205,8 @@ endp
 @move_5x
     local numeric x, y, z, a
     gcode = 0
-    ;z = -ztpos
-    z = ztpos
+    z = -ztpos
+    ;z = ztpos
     ;a = -apos
     a = apos
     {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a] }
@@ -218,8 +218,8 @@ endp
     local numeric x, y, z, a
 
     gcode = 1
-   ;z = -ztpos
-    z = ztpos
+    z = -ztpos
+    ;z = ztpos
     ;a = -apos
     a = apos
     {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a], [' F'feed] }
