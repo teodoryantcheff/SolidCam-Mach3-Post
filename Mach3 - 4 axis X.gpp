@@ -33,9 +33,8 @@
     blknum_max      = 999995
 
 
-    ;trace "all":(trace_level)
-    ;trace "all":5
-	;trace "@call_proc":5
+	input 'Trave Level'trace_level
+    trace 'all':trace_level
 endp
 
 ;-------------------
@@ -203,26 +202,31 @@ endp
 ;-------------------
 
 @move_5x
-    local numeric x, y, z, a
     gcode = 0
-    z = -ztpos
-    ;z = ztpos
-    ;a = -apos
-    a = apos
-    {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a] }
+	
+	; -z -a
+	
+    local numeric y, z, a
+    y = -ytpos
+	z = -ztpos
+    a = -apos - 180
+	
+    {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a] }
 endp
 
 ;-------------------
 
 @line_5x
-    local numeric x, y, z, a
-
     gcode = 1
-    z = -ztpos
-    ;z = ztpos
-    ;a = -apos
-    a = apos
-    {nb, ['G'gcode], [' X'xtpos], [' Y'ytpos], [' Z'z], [' A'a], [' F'feed] }
+	
+	; -z -a
+	
+    local numeric y, z, a
+    y = -ytpos
+	z = -ztpos
+    a = -apos - 180
+	
+    {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a], [' F'feed] }
 endp
 
 ;-------------------
@@ -284,7 +288,10 @@ endp
 
 @home_number
     gcode = 53 + home_number
-    {' G'gcode}
+    {nb, 'G'gcode}
+
+    {' A'(-angle_4x_around_x):'5.3(p)'}
+    ;{nb, 'G0 A'angle_4x_around_x}
 endp
 
 ;-------------------
@@ -428,17 +435,29 @@ endp
     ;{nb, '( ----------------------------- )'}
     {nb, '( ---- Start of 'job_name' ----)'}
 
+    if msg ne ''
+        {nb, '('msg, ')'}
+    endif
+	
     ;{nb, nl, '( rax='rotate_angle_x, ' ray='rotate_angle_y, ')'}
     ;{nb, nl, '( a4xax='angle_4x_around_x , ' a4xay='angle_4x_around_y, ' )' }
 
 	; TODO: move up and rotate A only if necessary
-    ;{nb, 'G0 Z'tool_z_level}
-    {nb, 'G0 G53 Z0'}
-	
-	local numeric a
-	a = -angle_4x_around_x
-    {nb, 'G0 A'a}
-    ;{nb, 'G0 A'angle_4x_around_x}
+;	if change(angle_4x_around_x)
+;		{'( >>> angle_4x_around_x changed <<<)'}
+;	endif
+
+    if fourth_axis_used eq false and rotate_used eq false then 
+		;{nl, '( >>> angle_4x_around_x to be updated <<<)'}
+
+		{nb, 'G0 G53 Z'(tool_z_level):'5.3(p)', '  ; move up to tool_z_level'}
+		
+		;{nb, 'G0 G53 Z'clearance_level, , '; clearance_level'}
+		;{nb, 'G0 G53 Z0'}
+		
+		{nb, 'G0 A'(-angle_4x_around_x):'5.3(p)'}
+	endif
+
 endp
 
 ;--------------------

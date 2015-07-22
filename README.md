@@ -8,11 +8,16 @@ Setup: standard 3 axis mill. A axis rotary, along X.
 ##Current status :
  - 3 axis - considered working
  - 4 axis - works for both repositioning moves and 4x toolpaths
- - 5 axis - works, issue being that Z and probably A are inverted
+ - 5 axis - works. Problems with inversion seem to be fixed now !!!
+ - Drill seems to work
+ - Tapping seems to work
+ - fhgdgfd
  
-##Never even tried :
- - Drill cycles of any kind
+**This post is yet to produce code that has been run on a real machine ! Use at your own risk !**
+ 
+##TODO :
+ - Arc feeds may need work
+ - 4x indexial use may need some more work to avoid unnecessary retracts to clearance
  - Canned cycles of any kind
- - Tapping
- - Tool offsets and compensation 
- - Not even air cutting time on a real machine of any kind
+ - Tool offsets and compensation
+ - Along Y version
