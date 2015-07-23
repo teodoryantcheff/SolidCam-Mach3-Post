@@ -290,8 +290,7 @@ endp
     gcode = 53 + home_number
     {nb, 'G'gcode}
 
-    {' A'(-angle_4x_around_x):'5.3(p)'}
-    ;{nb, 'G0 A'angle_4x_around_x}
+    ;{' A'(-angle_4x_around_x):'5.3(p)'}
 endp
 
 ;-------------------
@@ -455,7 +454,7 @@ endp
 		;{nb, 'G0 G53 Z'clearance_level, , '; clearance_level'}
 		;{nb, 'G0 G53 Z0'}
 		
-		{nb, 'G0 A'(-angle_4x_around_x):'5.3(p)'}
+		{nb, 'G0 G53 A'(-angle_4x_around_x):'5.3(p)'}
 	endif
 
 endp
