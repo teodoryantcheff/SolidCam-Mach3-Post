@@ -33,7 +33,7 @@
     blknum_max      = 999995
 
 
-	input 'Trave Level'trace_level
+	input 'Trace Level'trace_level
     trace 'all':trace_level
 endp
 
