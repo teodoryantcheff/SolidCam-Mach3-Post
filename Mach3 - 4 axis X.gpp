@@ -33,7 +33,7 @@
     blknum_max      = 999995
 
 
-	input 'Trace Level'trace_level
+    input 'Trace Level'trace_level
     trace 'all':trace_level
 endp
 
@@ -55,9 +55,9 @@ endp
 ;-------------------
 
 @start_program
-	{nb, '(--- Initialisation ---)'}
+    {nb, '(--- Initialisation ---)'}
     {nb, 'G0 G40 G49 G80 G21'}
-	{nb, '(--- Go To Machine Origin ---)'}
+    {nb, '(--- Go To Machine Origin ---)'}
     {nb, 'G0 G53 Z0'}
     {nb, 'G0 G53 X0 Y0 A0'}
 endp
@@ -96,7 +96,7 @@ endp
 ;-------------------
 
 @machine_plane
-	gcode = 17 ; XY default
+    gcode = 17 ; XY default
     if machine_plane eq YZ
         gcode = 19
     endif
@@ -110,7 +110,7 @@ endp
 
 @call_proc
     {[' ('message, ')']}
-	;if active(parm1) then
+    ;if active(parm1) then
     ;    gcode = 65
     ;    {nb, 'G'gcode, ' P'label, ' A'parm1, [' B'parm2], [' C'parm3]}
     ;else
@@ -136,7 +136,7 @@ endp
 ;----------------
 
 @loop
-	; TODO
+    ; TODO
     ;local integer var_num
 
     ;var_num = loop_level + 20
@@ -147,7 +147,7 @@ endp
 ;----------------
 
 @end_loop
-	; TODO
+    ; TODO
     ;local integer var_num
 
     ;var_num = loop_level + 20
@@ -165,7 +165,7 @@ endp
 
 @rapid_move
     gcode = 0
-	{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos] }
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos] }
 endp
 
 ;-------------------
@@ -173,7 +173,7 @@ endp
 @move_4x
     gcode = 0
   
-	local numeric a
+    local numeric a
     ;a = -cpos
     a = cpos
 
@@ -184,7 +184,7 @@ endp
 
 @line
     gcode = 1
-	{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' F'feed] }
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' F'feed] }
 endp
 
 ;-------------------
@@ -192,7 +192,7 @@ endp
 @line_4x
     gcode = 1
   
-	local numeric a
+    local numeric a
     ;a = -cpos
     a = cpos
 
@@ -203,14 +203,14 @@ endp
 
 @move_5x
     gcode = 0
-	
-	; -z -a
-	
+    
+    ; -z -a
+    
     local numeric y, z, a
     y = -ytpos
-	z = -ztpos
+    z = -ztpos
     a = -apos - 180
-	
+    
     {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a] }
 endp
 
@@ -218,14 +218,14 @@ endp
 
 @line_5x
     gcode = 1
-	
-	; -z -a
-	
+    
+    ; -z -a
+    
     local numeric y, z, a
     y = -ytpos
-	z = -ztpos
+    z = -ztpos
     a = -apos - 180
-	
+    
     {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a], [' F'feed] }
 endp
 
@@ -263,7 +263,7 @@ endp
     endif
     {nb, 'G'gcode,' '}
     if side ne COMP_OFF
-		{'D'(offset_number), ' '}
+        {'D'(offset_number), ' '}
     endif
     skipline = FALSE
 endp
@@ -385,9 +385,9 @@ endp
 ;-------------------
 
 @drill_point
-	if not first_drill then
-		{nb, ' ', [' X'xpos], [' Y'ypos], [' Z'zpos]}
-	endif
+    if not first_drill then
+        {nb, ' ', [' X'xpos], [' Y'ypos], [' Z'zpos]}
+    endif
 endp
 
 ;-------------------
@@ -437,32 +437,32 @@ endp
     if msg ne ''
         {nb, '('msg, ')'}
     endif
-	
+    
     ;{nb, nl, '( rax='rotate_angle_x, ' ray='rotate_angle_y, ')'}
     ;{nb, nl, '( a4xax='angle_4x_around_x , ' a4xay='angle_4x_around_y, ' )' }
 
-	; TODO: move up and rotate A only if necessary
-;	if change(angle_4x_around_x)
-;		{'( >>> angle_4x_around_x changed <<<)'}
-;	endif
+    ; TODO: move up and rotate A only if necessary
+;   if change(angle_4x_around_x)
+;       {'( >>> angle_4x_around_x changed <<<)'}
+;   endif
 
     if fourth_axis_used eq false and rotate_used eq false then 
-		;{nl, '( >>> angle_4x_around_x to be updated <<<)'}
+        ;{nl, '( >>> angle_4x_around_x to be updated <<<)'}
 
-		{nb, 'G0 G53 Z'(tool_z_level):'5.3(p)', '  ; move up to tool_z_level'}
-		
-		;{nb, 'G0 G53 Z'clearance_level, , '; clearance_level'}
-		;{nb, 'G0 G53 Z0'}
-		
-		{nb, 'G0 G53 A'(-angle_4x_around_x):'5.3(p)'}
-	endif
+        {nb, 'G0 G53 Z'(tool_z_level):'5.3(p)', '  ; move up to tool_z_level'}
+        
+        ;{nb, 'G0 G53 Z'clearance_level, , '; clearance_level'}
+        ;{nb, 'G0 G53 Z0'}
+        
+        {nb, 'G0 G53 A'(-angle_4x_around_x):'5.3(p)'}
+    endif
 
 endp
 
 ;--------------------
 
 @end_of_job
-    {nb, '( ---- End of 'job_name' ----)'}	
+    {nb, '( ---- End of 'job_name' ----)'}  
 endp
 
 ;--------------------
