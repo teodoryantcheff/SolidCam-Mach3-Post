@@ -270,13 +270,6 @@ endp
 
 ;-------------------
 
-@delay
-    gcode = 4
-    {nb, 'G'gcode, ' P'delay_period:integer_def_f}
-endp
-
-;-------------------
-
 @change_ref_point
     ; Given in absolute mode
     gcode = 10
@@ -330,12 +323,6 @@ endp
     {nb, 'T'tool_number,' M' mcode' D'tool_number ' H'tool_number}
     call @start_tool
     call @home_number
-endp
-
-;-------------------
-
-@message
-   {nb, '( ', message, ' )'}
 endp
 
 ;-------------------
@@ -463,6 +450,81 @@ endp
 
 @end_of_job
     {nb, '( ---- End of 'job_name' ----)'}  
+endp
+
+;--------------------
+
+@delay
+    gcode = 4
+    {nb, 'G'gcode, ' P'delay_period:integer_def_f}
+endp
+
+;-------------------
+
+@dwell 
+	delay_period = dwell_time
+	call @delay
+endp
+
+;--------------------
+
+@cool_mist
+	if mist_coolant then
+		{nb, 'M7'}
+	else
+		{nb, 'M9'}
+	endif
+endp
+
+;--------------------
+
+@cool_flood
+	if flood_coolant then
+		{nb, 'M8'}
+	else
+		{nb, 'M9'}
+	endif
+endp
+
+;--------------------
+
+@message
+   {nb, '( ', message, ' )'}
+endp
+
+;-------------------
+
+@mco_message
+	call @message
+endp
+
+;--------------------
+
+@move_object
+	local string machine_coords
+	local numeric xpos, ypos, zpos, apos
+	
+	machine_coords = ' G53' ; abs coords by default
+	
+	if MCO_CoordSysType eq 1 then ; machine / abs coordinates
+		machine_coords = ' G53'
+		xpos = move_axis_x
+		ypos = move_axis_y
+		zpos = move_axis_z
+		apos = move_axis_a
+	else	; part coordinates
+		machine_coords = ''
+		xpos = xh_move
+		ypos = yh_move
+		zpos = zh_move
+		apos = ah_move
+	endif
+
+	if is_rapid_move then
+		{nb, 'G0', machine_coords, ' X'xpos, ' Y'ypos, ' Z'zpos, [' A'apos] }
+	else
+		{nb, 'G1', machine_coords, ' X'xpos, ' Y'ypos, ' Z'zpos, [' A'apos], [' F'feed_move] }
+	endif
 endp
 
 ;--------------------
