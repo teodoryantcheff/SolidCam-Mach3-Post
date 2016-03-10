@@ -30,4 +30,4 @@ Setup: standard 3 axis mill. A axis rotary, along X or Y.
   * Config > General Config - tick `A-axis is angular`, set `IJ mode` to incremental, uncheck all in `Rotational`, possibly also check `G04 dwell in ms`
   * Config > Toolpath - Check `X-axis` / `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps.
 
-**Usage : Do set your CoordSyses so that the CS origin is in the pivot point (axis of rotation) and X is the axis around which the part revolves**
+**Usage : Do set your CoordSyses so that the CS origin is **on** the pivot point (axis of rotation) and X/Y is the axis around which the part revolves**
