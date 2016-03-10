@@ -1,9 +1,9 @@
-
-; TODO
-
 ;
 ; Mach3 post for SolidCam 
-;-----
+; -----
+; Setup: standard 3 axis mill. A axis rotary, along X.
+; Latest Revision:
+;  - 2016-03-10 Cleanups
 ;
 
 @init_post
@@ -55,9 +55,9 @@ endp
 ;-------------------
 
 @start_program
-    {nb, '(--- Initialisation ---)'}
+    {nb, '( --- Initialisation --- )'}
     {nb, 'G0 G40 G49 G80 G21'}
-    {nb, '(--- Go To Machine Origin ---)'}
+    {nb, '( --- Go To Machine Origin --- )'}
     {nb, 'G0 G53 Z0'}
     {nb, 'G0 G53 X0 Y0 A0'}
 endp
@@ -170,21 +170,19 @@ endp
 
 ;-------------------
 
+@line
+    gcode = 1
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' F'feed] }
+endp
+;-------------------
+
 @move_4x
     gcode = 0
   
     local numeric a
-    ;a = -cpos
     a = cpos
 
-    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'a] }
-endp
-
-;-------------------
-
-@line
-    gcode = 1
-    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' F'feed] }
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], ' A'a }
 endp
 
 ;-------------------
@@ -193,7 +191,6 @@ endp
     gcode = 1
   
     local numeric a
-    ;a = -cpos
     a = cpos
 
     {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'a], [' F'feed] }
@@ -203,15 +200,14 @@ endp
 
 @move_5x
     gcode = 0
-    
-    ; -z -a
-    
-    local numeric y, z, a
+
+    local numeric x, y, z, a
+	x = xtpos
     y = -ytpos
     z = -ztpos
     a = -apos - 180
     
-    {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a] }
+    {nb, ['G'gcode], [' X'x], [' Y'y], [' Z'z], [' A'a] }
 endp
 
 ;-------------------
@@ -219,14 +215,13 @@ endp
 @line_5x
     gcode = 1
     
-    ; -z -a
-    
-    local numeric y, z, a
+    local numeric x, y, z, a
+	x = xtpos
     y = -ytpos
     z = -ztpos
     a = -apos - 180
     
-    {nb, ['G'gcode], [' X'xtpos], [' Y'y], [' Z'z], [' A'a], [' F'feed] }
+    {nb, ['G'gcode], [' X'x], [' Y'y], [' Z'z], [' A'a], [' F'feed] }
 endp
 
 ;-------------------
@@ -328,7 +323,7 @@ endp
 ;-------------------
 
 @drill
-    call @rapid_move
+    call @move_4x
 
     gcode = 98 ; default value
 
@@ -373,12 +368,19 @@ endp
 
 @drill_point
     if not first_drill then
-        {nb, ' ', [' X'xpos], [' Y'ypos], [' Z'zpos]}
+        {nb, ' ', ' X'xpos, ' Y'ypos, ' Z'zpos}
     endif
 endp
 
 ;-------------------
 
+@drill4x_pnt
+    if not first_drill then
+		call @drill
+   endif
+endp
+
+;-------------------
 @mirror
     if mirror_type eq MIRROR_OFF then
         {nb, 'G50.1 X0 Y0'}
@@ -419,7 +421,7 @@ endp
 
 @start_of_job
     ;{nb, '( ----------------------------- )'}
-    {nb, '( ---- Start of 'job_name' ----)'}
+    {nb, '( ---- Start of 'job_name' ---- )'}
 
     if msg ne ''
         {nb, '('msg, ')'}
@@ -449,7 +451,7 @@ endp
 ;--------------------
 
 @end_of_job
-    {nb, '( ---- End of 'job_name' ----)'}  
+    {nb, '( ---- End of 'job_name' ---- )'}  
 endp
 
 ;--------------------
