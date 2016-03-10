@@ -7,7 +7,7 @@ Inspired by **bogan**.
 
 Special thanks to **Bruno Silva**, modelling and testing.
 
-CNCZone discussion link: http://www.cnczone.com/forums/solidcam/255556-cnc.html
+CNCZone [discussion link](http://www.cnczone.com/forums/solidcam/255556-cnc.html).
 
 
 Setup: standard 3 axis mill. A axis rotary, along X or Y.
