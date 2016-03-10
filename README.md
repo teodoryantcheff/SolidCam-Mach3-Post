@@ -15,11 +15,9 @@ Setup: standard 3 axis mill. A axis rotary, along X.
  - Tapping seems to work
  
 ##TODO :
- - Arc feeds may need work
  - 4x indexial use may need some more work to avoid unnecessary retracts to clearance
  - Canned cycles of any kind
  - Tool offsets and compensation
- - Along Y version
 
 ##Installation and usage notes :
  - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAM2015\Gpptool`

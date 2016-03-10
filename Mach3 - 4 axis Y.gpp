@@ -183,7 +183,7 @@ endp
     ;a = cpos
     a = -cpos
 
-    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'a] }
+    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], ' A'a }
 endp
 
 ;-------------------
@@ -333,7 +333,7 @@ endp
 ;-------------------
 
 @drill
-    call @rapid_move
+    call @move_4x
 
     gcode = 98 ; default value
 
@@ -378,8 +378,16 @@ endp
 
 @drill_point
     if not first_drill then
-        {nb, ' ', [' X'xpos], [' Y'ypos], [' Z'zpos]}
+        {nb, ' ', ' X'xpos, ' Y'ypos, ' Z'zpos}
     endif
+endp
+
+;-------------------
+
+@drill4x_pnt
+    if not first_drill then
+		call @drill
+   endif
 endp
 
 ;-------------------
