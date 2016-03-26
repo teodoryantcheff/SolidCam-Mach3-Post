@@ -31,3 +31,7 @@ Setup: standard 3 axis mill. A axis rotary, along X or Y.
   * Config > Toolpath - Check `X-axis` / `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps.
 
 **Usage : Do set your CoordSyses so that the CS origin is **on** the pivot point (axis of rotation) and X/Y is the axis around which the part revolves**
+
+## PostDevTestMachine
+Is a completeky new implementation of the post, that uses SolidCam's new kinematics (pos_to_machine=Y). Currently WIP and needs testing, though so far it seems to be quite complete and working.
+Testers needed - any feedback will be appreciated.
