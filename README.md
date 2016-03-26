@@ -5,7 +5,7 @@
 
 Inspired by **bogan**.
 
-Special thanks to **Bruno Silva**, modelling and testing.
+Special thanks to **Bruno Silva** - test part modelling and code testing.
 
 CNCZone [discussion link](http://www.cnczone.com/forums/solidcam/255556-cnc.html).
 
