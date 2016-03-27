@@ -326,6 +326,7 @@ endp
 ;-------------------
 ;TODO - check mach drill cicles g83 in particular
 @drill
+	change(apos) = FALSE
     call @move_5x
  
     gcode = 98 ; default value
