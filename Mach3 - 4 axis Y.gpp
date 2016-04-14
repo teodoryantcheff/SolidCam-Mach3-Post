@@ -368,7 +368,7 @@ endp
 
 @drill_point
     if not first_drill then
-        {nb, ' ', ' X'xpos, ' Y'ypos, ' Z'zpos}
+        {nb, ' ', ' X'xpos, ' Y'ypos}
     endif
 endp
 
