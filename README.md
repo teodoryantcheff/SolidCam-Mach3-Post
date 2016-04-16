@@ -13,6 +13,11 @@ CNCZone [discussion link](http://www.cnczone.com/forums/solidcam/255556-cnc.html
 Setup: standard 3 axis mill. A axis rotary, along X or Y.
 
 ##Current status :
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=4jaPCg0YltA
+" target="_blank"><img src="http://img.youtube.com/vi/4jaPCg0YltA/0.jpg" 
+alt="video" width="240" height="180" border="10" /></a>
+
  - 3 axis - working
  - 4 axis - working / for both repositioning moves and 4x toolpaths
  - 5 axis - working
