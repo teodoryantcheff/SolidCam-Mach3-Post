@@ -368,7 +368,7 @@ endp
     if not first_drill then
         call @drill
     ;else    
-    ;    {nb, ' ', ' X'xpos, ' Y'ypos, ' Z'zpos}
+    ;    {nb, ' ', ' X'xpos, ' Y'ypos}
     endif
 endp
 
