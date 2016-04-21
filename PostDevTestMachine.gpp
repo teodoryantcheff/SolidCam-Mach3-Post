@@ -5,7 +5,7 @@
 ; Latest Revision:
 ;  - 2016-03-19 added use_solidcam_feeds to vmid and gpp
 ;  - 2016-03-10 Cleanups
-;  - 
+;  - 2016-04-21 Optional Stop support added
 
 @init_post
 
@@ -324,9 +324,9 @@ endp
 endp
 
 ;-------------------
-;TODO - check mach drill cicles g83 in particular
+;TODO - check mach drill cicles. g83 in particular
 @drill
-	change(apos) = FALSE
+	change(apos) = FALSE ; So 
     call @move_5x
  
     gcode = 98 ; default value
@@ -503,6 +503,17 @@ endp
 
 ;--------------------
 
+@machine_opt_stop
+	if optional_stop then
+		if MCO_New_Line then 
+			{nb}
+		endif
+		{' M1'}
+	endif
+endp
+
+;--------------------
+
 @move_object
     local string machine_coords
     local numeric xpos, ypos, zpos, apos
@@ -555,9 +566,9 @@ endp
 
 @start_tool
     if tool_direction eq CW then
-        mcode = 3
-    else              ;  CCW
         mcode = 4
+    else              ;  CCW
+        mcode = 3
     endif
 
     {nb, 'S'spin:integer_def_f, ' M'mcode}
