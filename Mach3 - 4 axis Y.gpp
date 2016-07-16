@@ -10,9 +10,10 @@
 
     ; Non GPPL variables
     num_user_procs =    1
-    ;line_labels    = TRUE     ; Jump to N...
+    line_labels    = TRUE     ; Jump to N...
 
     ; GPPL variables
+    pre_processor   = 'Mach3 - 4 axis Y'
     numeric_def_f   = '5.3'
     integer_def_f   = '5.0(p)'
     gcode_f         = '2.0(p)'
@@ -301,6 +302,10 @@ endp
     {nb, 'G'gcode, ' A'angle}
 endp
 
+@transform_info
+	{nb, 'G0 A'angle}
+endp
+
 ;-------------------
 
 @change_tool
@@ -555,9 +560,9 @@ endp
 
 @start_tool
     if tool_direction eq CW then
-        mcode = 3
-    else              ;  CCW
         mcode = 4
+    else              ;  CCW
+        mcode = 3
     endif
 
     {nb, 'S'spin:integer_def_f, ' M'mcode}
