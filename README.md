@@ -31,7 +31,7 @@ alt="video" width="480" height="360" border="10" /></a>
  - Tool offsets and compensation
 
 ## Installation and usage notes :
- - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAM2015\Gpptool`
+ - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAMXXXX\Gpptool`
  - Usage in SolidCam - Select `Mach3_4X` or `Mach3_4Y` for CNC-Machine
  - Mach3 setup
   * Config > General Config - tick `A-axis is angular`, set `IJ mode` to incremental, uncheck all in `Rotational`, possibly also check `G04 dwell in ms`
