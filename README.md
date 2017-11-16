@@ -32,7 +32,7 @@ alt="video" width="480" height="360" border="10" /></a>
 
 ##Installation and usage notes :
  - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAM2015\Gpptool`
- - Usage in SolidCam - Select `Mach3_4X` or `Mach3_4X` for CNC-Machine
+ - Usage in SolidCam - Select `Mach3_4X` or `Mach3_4Y` for CNC-Machine
  - Mach3 setup
   * Config > General Config - tick `A-axis is angular`, set `IJ mode` to incremental, uncheck all in `Rotational`, possibly also check `G04 dwell in ms`
   * Config > Toolpath - Check `X-axis` / `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps.
