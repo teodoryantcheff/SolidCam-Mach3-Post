@@ -34,9 +34,9 @@
     blknum_delta    =    5
     blknum_max      = 999995
 
-	global logical use_sc_feeds
-	use_sc_feeds = FALSE
-	
+    global logical use_sc_feeds
+    use_sc_feeds = FALSE
+
     input 'Trace Level'trace_level
     trace 'all':trace_level
 endp
@@ -62,11 +62,11 @@ endp
     {nb, '( --- Initialisation --- )'}
     {nb, 'G0 G53 X0 Y0 Z0 A0'} ; TODO REMOVE !!!       
     {nb, 'G0 G40 G49 G80'}
-	if inch_system then
-		{' G20'}
-	else
-		{' G21'}
-	endif
+    if inch_system then
+        {' G20'}
+    else
+        {' G21'}
+    endif
 
     ;{nb, '( --- Go To Machine Origin --- )'}
     ;{nb, 'G0 G53 Z0'}
@@ -212,10 +212,10 @@ endp
 @line_5x
     gcode = 1
     if use_sc_feeds then 
-		{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'feed] }
-	else
-		{nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'original_feed] }
-	endif
+        {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'feed] }
+    else
+        {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'original_feed] }
+    endif
 endp
 
 ;-------------------
@@ -230,10 +230,10 @@ endp
     if arc_size eq 360 then
         {' I'xcenter_rel, ' J'ycenter_rel}
     else
-            if arc_size gt 180 then
-                radius = -radius
-            endif
-            {' R'radius}
+        if arc_size gt 180 then
+            radius = -radius
+        endif
+        {' R'radius}
     endif
     {[' F'feed]}
 endp
@@ -260,7 +260,7 @@ endp
 ;-------------------
 
 @change_ref_point
-	; TODO
+    ; TODO
     ; Given in absolute mode
     gcode = 10
     {nb, 'G'gcode, 'L2 P'home_number ' X'xhome, ' Y'yhome, ' Z'zhome}
@@ -331,7 +331,7 @@ endp
 ;-------------------
 ;TODO - check mach drill cicles. g83 in particular
 @drill
-	change(apos) = FALSE ; So 
+    change(apos) = FALSE ; So
     call @move_5x
  
     gcode = 98 ; default value
@@ -352,7 +352,7 @@ endp
     {nb, 'G'gcode, ' Z'drill_lower_z, ' R'drill_upper_z}
     if drill_type eq G83 then
         ;{' Q'stepdown}
-		{' Q'down_step}
+        {' Q'down_step}
         {' P'dwell:'7.0(*1000P)'}
     endif
     if drill_type eq G82 then
@@ -432,14 +432,14 @@ endp
         {nb, '('msg, ')'}
     endif
 
-	if active(use_solidcam_feeds) then
-		;{nb, '( active use_solidcam_feeds ', use_solidcam_feeds, ' )'}
-		use_sc_feeds = use_solidcam_feeds
-	else
-		;{nb, '( active use_solidcam_feeds FALSE', use_solidcam_feeds, ' )'}
-		use_sc_feeds = FALSE
-	endif
-	
+    if active(use_solidcam_feeds) then
+        ;{nb, '( active use_solidcam_feeds ', use_solidcam_feeds, ' )'}
+        use_sc_feeds = use_solidcam_feeds
+    else
+        ;{nb, '( active use_solidcam_feeds FALSE', use_solidcam_feeds, ' )'}
+        use_sc_feeds = FALSE
+    endif
+
 ;    if fourth_axis_used eq false and rotate_used eq false then 
 ;        {nb, 'G0 Z'(tool_z_level):'5.3(p)', '  ; move up to tool_z_level'}
         
@@ -495,9 +495,9 @@ endp
 ;--------------------
 
 @message
-	if not instr(message, '-----') then
-		{nb, '( ', message, ' )'}
-	endif
+    if not instr(message, '-----') then
+        {nb, '( ', message, ' )'}
+    endif
 endp
 
 ;-------------------
@@ -509,12 +509,12 @@ endp
 ;--------------------
 
 @machine_opt_stop
-	if optional_stop then
-		if MCO_New_Line then 
-			{nb}
-		endif
-		{' M1'}
-	endif
+    if optional_stop then
+        if MCO_New_Line then
+            {nb}
+        endif
+        {' M1'}
+    endif
 endp
 
 ;--------------------
