@@ -554,9 +554,9 @@ endp
 
 @start_tool
     if tool_direction eq CW then
-        mcode = 3
-    else              ;  CCW
         mcode = 4
+    else              ;  CCW
+        mcode = 3
     endif
 
     {nb, 'S'spin:integer_def_f, ' M'mcode}

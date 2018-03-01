@@ -1,2 +1,3 @@
 *.vmid.backup
 *.log
+/.idea/

@@ -1,7 +1,7 @@
 # SolidCam-Mach3-Post
 ## A SolidCam postprocessor for Mach3, supporting 4x and 5x operations
 
-**This post is yet to produce code that has been run on a real machine ! Use at your own risk !**
+**Use this post at your own risk! Always check the produced code before running it on a real machine!**
 
 Inspired by **bogan**.
 
@@ -23,7 +23,7 @@ alt="video" width="480" height="360" border="10" /></a>
  - 3 axis - working
  - 4 axis - working / for both repositioning moves and 4x toolpaths
  - 5 axis - working
- - Drill cyclels - G81 (drill), G82 (drill+dwell), G83 (peck drilling), Cannes: G85, G86, G89 
+ - Drill cycles - G81 (drill), G82 (drill+dwell), G83 (peck drilling), Cannes: G85, G86, G89 
  - Tapping seems to work
  
 ## TODO :
@@ -31,15 +31,17 @@ alt="video" width="480" height="360" border="10" /></a>
  - Tool offsets and compensation
 
 ## Installation and usage notes :
- - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAMXXXX\Gpptool`
- - Usage in SolidCam - Select `Mach3_4X` or `Mach3_4Y` for CNC-Machine
- - Mach3 setup
+ - Put the .gpp and .vmid files in `C:\Users\Public\Documents\SolidCAM\SolidCAMXXXX\Gpptool`. You need to restart SolidWorks for it to pick up the new files.
+ - Usage in SolidCam - Select `Mach3_4X_Y` for CNC-Machine
+ - Mach3 setup:
   * Config > General Config - tick `A-axis is angular`, set `IJ mode` to incremental, uncheck all in `Rotational`, possibly also check `G04 dwell in ms`
-  * Config > Toolpath - Check `X-axis` / `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps.
+  * Config > Toolpath - Check `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps. I recall having issues with `360 wrap around` so check by curring air before destroying an important part.
 
 **Usage : Do set your CoordSyses so that the CS origin is **on** the pivot point (axis of rotation) and X/Y is the axis around which the part revolves**
 
 ## PostDevTestMachine
-Is a completely new implementation of the post, that uses SolidCam's new kinematics (pos_to_machine=Y). Currently WIP and needs testing, though so far it seems to be quite complete and working.
+Is a completely new implementation of the post, that uses SolidCam's new kinematics (pos_to_machine=Y).
+
+This is now the one to use. Files in the `/old` directory are kept just for reference. The only version currently available is for machine that has the 4th axis along Y. Should there be interest I will make a version that has the 4th axis parallel to machine X.
 
 *Testers needed - any feedback appreciated.*
