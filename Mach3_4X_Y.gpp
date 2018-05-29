@@ -58,7 +58,7 @@ endp
 
 @start_program
     {nb, '( --- Initialisation --- )'}
-    {nb, 'G0 G53 X0 Y0 Z0 A0'} ; TODO REMOVE !!!       
+    {nb, 'G0 G53 X0 Y0 A0'} ; TODO REMOVE !!! ;eliminate "Z0" tool crash     
     {nb, 'G0 G40 G49 G80'}
     if inch_system then
         {' G20'}
