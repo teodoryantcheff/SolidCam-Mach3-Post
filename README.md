@@ -35,7 +35,7 @@ alt="video" width="480" height="360" border="10" /></a>
  - Usage in SolidCam - Select `Mach3_4X_Y` for CNC-Machine
  - Mach3 setup:
   * Config > General Config - tick `A-axis is angular`, set `IJ mode` to incremental, uncheck all in `Rotational`, possibly also check `G04 dwell in ms`
-  * Config > Toolpath - Check `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps. I recall having issues with `360 wrap around` so check by curring air before destroying an important part.
+  * Config > Toolpath - Check `Y-axis` for axis of rotation and enable `A-rotations`. `3d compass` also helps. I recall having issues with `360 wrap around` so check by cutting air before destroying an important part.
 
 **Usage : Do set your CoordSyses so that the CS origin is **on** the pivot point (axis of rotation) and X/Y is the axis around which the part revolves**
 
