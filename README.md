@@ -23,7 +23,7 @@ alt="video" width="480" height="360" border="10" /></a>
  - 3 axis - working
  - 4 axis - working / for both repositioning moves and 4x toolpaths
  - 5 axis - working
- - Drill cycles - G81 (drill), G82 (drill+dwell), G83 (peck drilling), Cannes: G85, G86, G89 
+ - Drill cycles - G81 (drill), G82 (drill+dwell), G83 (peck drilling), Canned cycles: G85 (boring), G86 (bore and stop), G89 (in, dwell, out)
  - Tapping seems to work
  
 ## TODO :
