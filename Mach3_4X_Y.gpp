@@ -212,7 +212,11 @@ endp
     if use_sc_feeds then 
         {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'feed] }
     else
-        {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'original_feed] }
+	    if original_feed > 0 then
+            {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'original_feed] }
+	    else
+		    {nb, ['G'gcode], [' X'xpos], [' Y'ypos], [' Z'zpos], [' A'apos], [' F'feed] }
+	    endif
     endif
 endp
 
